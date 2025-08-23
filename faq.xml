@@ -6478,45 +6478,36 @@ window.history.replaceState({}, document.title, clean_uri);
 //]]>
 </script>
 <b:if cond='data:blog.searchQuery'>
-<script>
-//<![CDATA[
-(function () {
-  try {
-    // 1) Re-enable scroll in case the theme locked it
-    document.documentElement.style.overflow = 'auto';
-    document.body.style.overflow = 'auto';
-
-    // 2) Kill any known overlay nodes still attached
-    var selectors = ['.dim-overlay', '.header-overlay', '.search-overlay', '.menu-overlay'];
-    selectors.forEach(function (sel) {
-      document.querySelectorAll(sel).forEach(function (el) {
-        // If it covers the viewport, disable it
-        var s = getComputedStyle(el);
-        if (s.position === 'fixed' && (s.inset || (s.top === '0px' && s.left === '0px'))) {
-          el.style.display = 'none';
-          el.style.pointerEvents = 'none';
-        }
-      });
-    });
-
-    // 3) If any lock class is toggled on <body>, remove it
-    var lockClasses = ['no-scroll', 'lock-scroll', 'overlay-open', 'search-open'];
-    lockClasses.forEach(function (c) { document.body.classList.remove(c); });
-  } catch (e) {
-    // no-op
-  }
-})();
-//]]>
-</script>
 <script type='text/javascript'>
 //<![CDATA[
-// Enhanced search page scroll fix
 (function() {
-  // Function to fix search page scrolling
+  if (window.location.href.indexOf('/search') === -1 && !document.body.classList.contains('search-view')) {
+    return;
+  }
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        const target = mutation.target;
+        const lockClasses = ['no-scroll', 'lock-scroll', 'overlay-open', 'search-open'];
+        let needsUpdate = false;
+        lockClasses.forEach((lockClass) => {
+          if (target.classList.contains(lockClass)) {
+            target.classList.remove(lockClass);
+            needsUpdate = true;
+          }
+        });
+        if (needsUpdate) {
+            target.style.overflow = 'auto !important';
+        }
+      }
+    });
+  });
+
+  observer.observe(document.body, { attributes: true });
+
+  // Also run the fix once on load
   function fixSearchPageScroll() {
-    if (window.location.href.indexOf('/search') > -1 || 
-        document.body.classList.contains('search-view')) {
-      
       // Remove any problematic overlays
       var overlays = document.querySelectorAll('.dim-overlay, .header-overlay, .search-overlay, .menu-overlay');
       overlays.forEach(function(overlay) {
@@ -6535,18 +6526,13 @@ window.history.replaceState({}, document.title, clean_uri);
         container.style.overflow = 'visible';
         container.style.height = 'auto';
       });
-    }
   }
-  
-  // Run the fix when page loads
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', fixSearchPageScroll);
   } else {
     fixSearchPageScroll();
   }
-  
-  // Also run when hash changes (for single page navigation)
-  window.addEventListener('hashchange', fixSearchPageScroll);
 })();
 //]]>
 </script>
