@@ -9,16 +9,16 @@
 <meta expr:content='data:view.title.escaped' name='twitter:title'/>
 <meta expr:content='data:view.description.escaped' name='twitter:description'/>
 <b:if cond='data:view.featuredImage'>
-    <meta expr:content='resizeImage(data:view.featuredImage, 1200, &quot;1200:630&quot;)' property='og:image'/>
-    <meta expr:content='resizeImage(data:view.featuredImage, 1200, &quot;1200:630&quot;)' name='twitter:image'/>
+    <meta expr:content='resizeImage(data:view.featuredImage, 1200, &quot;1200:630&quot;) + &quot;-rw&quot;' property='og:image'/>
+    <meta expr:content='resizeImage(data:view.featuredImage, 1200, &quot;1200:630&quot;) + &quot;-rw&quot;' name='twitter:image'/>
 <b:elseif cond='data:widgets'/>
     <b:loop reverse='true' values='data:widgets.Blog.first.posts where (p =&gt; p.featuredImage) map (p =&gt; p.featuredImage)' var='imageUrl'>
-    <meta expr:content='resizeImage(data:imageUrl, 1200, &quot;1200:630&quot;)' property='og:image'/>
-    <meta expr:content='resizeImage(data:imageUrl, 1200, &quot;1200:630&quot;)' name='twitter:image'/>
+    <meta expr:content='resizeImage(data:imageUrl, 1200, &quot;1200:630&quot;) + &quot;-rw&quot;' property='og:image'/>
+    <meta expr:content='resizeImage(data:imageUrl, 1200, &quot;1200:630&quot;) + &quot;-rw&quot;' name='twitter:image'/>
     </b:loop>
 <b:elseif cond='data:blog.postImageUrl'/>
-    <meta expr:content='resizeImage(data:blog.postImageUrl, 1200, &quot;1200:630&quot;)' property='og:image'/>
-    <meta expr:content='resizeImage(data:blog.postImageUrl, 1200, &quot;1200:630&quot;)' name='twitter:image'/>
+    <meta expr:content='resizeImage(data:blog.postImageUrl, 1200, &quot;1200:630&quot;) + &quot;-rw&quot;' property='og:image'/>
+    <meta expr:content='resizeImage(data:blog.postImageUrl, 1200, &quot;1200:630&quot;) + &quot;-rw&quot;' name='twitter:image'/>
 </b:if>
 <!-- Twitter Summary Card Generator for Blogger: http://bit.ly/2OXsKZz -->
     <meta content='299305807205795' property='fb:pages'/>
@@ -3041,7 +3041,26 @@ body.search-view main {
               <b:class cond='!data:hasImage' name='noimage'/>
               <b:if cond='data:hasImage'>
                 <div class='big-post-image-top-container'>
-                  <b:include cond='(data:postDisplay.showFeaturedImage ?: true) and data:post.featuredImage' data='{                                      image: data:post.featuredImage,                                      selector: &quot;.big-post-image-top&quot;,                                      imageSizes: [480, 640, 800, 1200],                                      imageRatio: &quot;3:2&quot;                                    }' name='responsiveImageStyle'/>
+                  <style>
+                    .big-post-image-top {
+                      background-image: url(<b:eval expr='resizeImage(data:post.featuredImage, 1200, "3:2") + "-rw"'/>);
+                    }
+                    @media (max-width: 800px) {
+                      .big-post-image-top {
+                        background-image: url(<b:eval expr='resizeImage(data:post.featuredImage, 800, "3:2") + "-rw"'/>);
+                      }
+                    }
+                    @media (max-width: 640px) {
+                      .big-post-image-top {
+                        background-image: url(<b:eval expr='resizeImage(data:post.featuredImage, 640, "3:2") + "-rw"'/>);
+                      }
+                    }
+                    @media (max-width: 480px) {
+                      .big-post-image-top {
+                        background-image: url(<b:eval expr='resizeImage(data:post.featuredImage, 480, "3:2") + "-rw"'/>);
+                      }
+                    }
+                  </style>
                   <a class='big-post-image-top' expr:href='data:post.url'/>
                 </div>
               </b:if>
@@ -3070,7 +3089,7 @@ body.search-view main {
                 </div>
               </b:if>
               <b:if cond='(data:postDisplay.showFeaturedImage ?: true) and data:post.featuredImage'>
-                <a class='big-post-image' expr:href='data:post.url' expr:style='((data:postDisplay.showFeaturedImage ?: true) and data:post.featuredImage)                                ? (&quot;background-image: url(\&quot;&quot; + resizeImage(data:post.featuredImage, 612, &quot;612:1000&quot;) + &quot;\&quot;);&quot;)                                : &quot;&quot;'/>
+                <a class='big-post-image' expr:href='data:post.url' expr:style='((data:postDisplay.showFeaturedImage ?: true) and data:post.featuredImage)                                ? (&quot;background-image: url(\&quot;&quot; + resizeImage(data:post.featuredImage, 612, &quot;612:1000&quot;) + &quot;-rw\&quot;);&quot;)                                : &quot;&quot;'/>
               </b:if>
             </div>
           </b:with>
@@ -3089,27 +3108,27 @@ body.search-view main {
                   <style>
                     @media (min-width: 1168px) {
                       <b:eval expr='&quot;#snippet_thumbnail_id_&quot; + data:post.id'/> {
-                        background-image: url(<b:eval expr='resizeImage(data:post.featuredImage, 256, &quot;1:1&quot;).cssEscaped'/>);
+                        background-image: url(<b:eval expr='resizeImage(data:post.featuredImage, 256, &quot;1:1&quot;).cssEscaped + &quot;-rw&quot;'/>);
                       }
                     }
                     @media (min-width: 969px) and (max-width: 1167px) {
                       <b:eval expr='&quot;#snippet_thumbnail_id_&quot; + data:post.id'/> {
-                        background-image: url(<b:eval expr='resizeImage(data:post.featuredImage, 1167, &quot;3:2&quot;).cssEscaped'/>);
+                        background-image: url(<b:eval expr='resizeImage(data:post.featuredImage, 1167, &quot;3:2&quot;).cssEscaped + &quot;-rw&quot;'/>);
                       }
                     }
                     @media (min-width: 601px) and (max-width: 968px) {
                       <b:eval expr='&quot;#snippet_thumbnail_id_&quot; + data:post.id'/> {
-                        background-image: url(<b:eval expr='resizeImage(data:post.featuredImage, 968, &quot;3:2&quot;).cssEscaped'/>);
+                        background-image: url(<b:eval expr='resizeImage(data:post.featuredImage, 968, &quot;3:2&quot;).cssEscaped + &quot;-rw&quot;'/>);
                       }
                     }
                     @media (max-width: 600px) {
                       <b:eval expr='&quot;#snippet_thumbnail_id_&quot; + data:post.id'/> {
-                        background-image: url(<b:eval expr='resizeImage(data:post.featuredImage, 600, &quot;3:2&quot;).cssEscaped'/>);
+                        background-image: url(<b:eval expr='resizeImage(data:post.featuredImage, 600, &quot;3:2&quot;).cssEscaped + &quot;-rw&quot;'/>);
                       }
                     }
                   </style>
                 <b:else/>
-                  <img expr:src='data:post.featuredImage'/>
+                  <img expr:alt='data:post.title' expr:src='data:post.featuredImage + &quot;-rw&quot;'/>
                 </b:if>
 
               </a>
@@ -3124,7 +3143,7 @@ body.search-view main {
             <div class='post-header-container container'>
               <b:if cond='data:view.isSingleItem                           and data:widgets.Blog.first.allBylineItems.author                           and data:post.author.authorPhoto.image                           and data:widget.type != &quot;PopularPosts&quot;'>
                 <div class='post-author-profile-pic-container'>
-                  <b:include data='{                                                           image: data:post.author.authorPhoto.image,                                                           imageRatio: &quot;1:1&quot;,                                                           imageSizes: [84, 168],                                                           sourceSizes: &quot;84px&quot;,                                                           imageClass: &quot;post-author-profile-pic&quot;                                                           }' name='responsiveImage'/>
+                  <img class='post-author-profile-pic' expr:alt='data:post.author.name' expr:src='resizeImage(data:post.author.authorPhoto.image, 168, "1:1") + "-rw"'/>
                 </div>
               </b:if>
               <b:include data='post' name='headerByline'/>
@@ -3924,7 +3943,7 @@ body.search-view main {
                       <b:includable id='snippetedPostThumbnail'>
   <div class='item-thumbnail'>
     <a expr:href='data:post.url'>
-      <b:include data='{                         image: data:post.featuredImage,                         imageSizes: [72, 144],                         imageRatio: &quot;1:1&quot;,                         sourceSizes: &quot;72px&quot;                        }' name='responsiveImage'/>
+      <img expr:alt='data:post.title' expr:src='resizeImage(data:post.featuredImage, 144, "1:1") + "-rw"'/>
     </a>
   </div>
 </b:includable>
@@ -5125,8 +5144,8 @@ body.search-view main {
               <b:includable id='content'>
   <div class='widget-content'>
     <b:tag cond='data:link' expr:href='data:link' name='a'>
-      <img expr:alt='data:title' expr:height='data:height' expr:id='data:widget.instanceId + &quot;_img&quot;' expr:src='data:sourceUrl' expr:width='data:width'>
-        <b:attr cond='data:sourceSet' expr:value='data:sourceSet' name='srcset'/>
+      <img expr:alt='data:title' expr:height='data:height' expr:id='data:widget.instanceId + &quot;_img&quot;' expr:src='data:sourceUrl + &quot;-rw&quot;' expr:width='data:width'>
+        <b:attr cond='data:sourceSet' expr:value='data:sourceSet + &quot;-rw&quot;' name='srcset'/>
       </img>
     </b:tag>
     <br/>
