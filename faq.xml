@@ -22,6 +22,11 @@
 </b:if>
 <!-- Twitter Summary Card Generator for Blogger: http://bit.ly/2OXsKZz -->
     <meta content='299305807205795' property='fb:pages'/>
+    <meta expr:content='data:blog.url' property='og:url'/>
+    <meta expr:content='data:blog.title' property='og:title'/>
+    <meta expr:content='data:blog.metaDescription' property='og:description'/>
+    <meta content='article' property='og:type'/>
+    <meta content='YOUR_PINTEREST_VERIFICATION_CODE' name='p:domain_verify'/>
 
     <script src='//cdn.letreach.com/js/main/43accbc19bcbbf2d1ea6eeece2b823d1.js'/>
     <meta content='width=device-width, initial-scale=1' name='viewport'/>
@@ -395,7 +400,8 @@ max-width:100%;
 overflow:hidden
 }
 .adsbygoogle{
-display:block
+display:block;
+min-height:250px
 }
 #cookieChoiceInfo{
 bottom:0;
@@ -3128,7 +3134,7 @@ body.search-view main {
                     }
                   </style>
                 <b:else/>
-                  <img expr:alt='data:post.title' expr:src='data:post.featuredImage + &quot;-rw&quot;'/>
+                  <img expr:alt='data:post.title' expr:src='data:post.featuredImage + &quot;-rw&quot;' loading='lazy'/>
                 </b:if>
 
               </a>
@@ -3143,7 +3149,7 @@ body.search-view main {
             <div class='post-header-container container'>
               <b:if cond='data:view.isSingleItem                           and data:widgets.Blog.first.allBylineItems.author                           and data:post.author.authorPhoto.image                           and data:widget.type != &quot;PopularPosts&quot;'>
                 <div class='post-author-profile-pic-container'>
-                  <img class='post-author-profile-pic' expr:alt='data:post.author.name' expr:src='resizeImage(data:post.author.authorPhoto.image, 168, "1:1") + "-rw"'/>
+                  <img class='post-author-profile-pic' expr:alt='data:post.author.name' expr:src='resizeImage(data:post.author.authorPhoto.image, 168, "1:1") + "-rw"' loading='lazy'/>
                 </div>
               </b:if>
               <b:include data='post' name='headerByline'/>
@@ -3460,6 +3466,18 @@ body.search-view main {
       <script id='faq-schema-generator' type='application/ld+json'>
       </script>
     </b:if>
+<script type='application/ld+json'>
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "<data:blog.homepageUrl.canonical/>",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "<data:blog.searchUrl/>?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
   </head>
 
   <body class='container'>
@@ -3943,7 +3961,7 @@ body.search-view main {
                       <b:includable id='snippetedPostThumbnail'>
   <div class='item-thumbnail'>
     <a expr:href='data:post.url'>
-      <img expr:alt='data:post.title' expr:src='resizeImage(data:post.featuredImage, 144, "1:1") + "-rw"'/>
+      <img expr:alt='data:post.title' expr:src='resizeImage(data:post.featuredImage, 144, "1:1") + "-rw"' loading='lazy'/>
     </a>
   </div>
 </b:includable>
@@ -4052,7 +4070,7 @@ body.search-view main {
 </b:includable>
                       <b:includable id='commentAuthorAvatar'>
   <div class='avatar-image-container'>
-    <img class='author-avatar' expr:src='data:comment.authorAvatarSrc' height='35' width='35'/>
+    <img class='author-avatar' expr:src='data:comment.authorAvatarSrc' height='35' width='35' loading='lazy'/>
   </div>
 </b:includable>
                       <b:includable id='commentDeleteIcon' var='comment'>
@@ -4359,7 +4377,7 @@ body.search-view main {
   <b:if cond='data:post.author.aboutMe and data:view.isPost'>
     <div class='author-profile'>
       <b:if cond='data:post.author.authorPhoto.url'>
-        <img class='author-image' expr:src='data:post.author.authorPhoto.url' width='50px'/>
+        <img class='author-image' expr:src='data:post.author.authorPhoto.url' width='50px' loading='lazy'/>
         <div class='author-about'>
           <b:include data='post' name='aboutPostAuthor'/>
         </div>
@@ -5040,7 +5058,7 @@ body.search-view main {
           </div>
         </b:includable>
               <b:includable id='authorProfileImage'>
-  <img class='profile-img' expr:alt='data:messages.myPhoto' expr:height='data:authorPhoto.height' expr:src='data:authorPhoto.image' expr:width='data:authorPhoto.width'/>
+  <img class='profile-img' expr:alt='data:messages.myPhoto' expr:height='data:authorPhoto.height' expr:src='data:authorPhoto.image' expr:width='data:authorPhoto.width' loading='lazy'/>
 </b:includable>
               <b:includable id='content'>
   <b:if cond='data:team'>
@@ -5144,7 +5162,7 @@ body.search-view main {
               <b:includable id='content'>
   <div class='widget-content'>
     <b:tag cond='data:link' expr:href='data:link' name='a'>
-      <img expr:alt='data:title' expr:height='data:height' expr:id='data:widget.instanceId + &quot;_img&quot;' expr:src='data:sourceUrl + &quot;-rw&quot;' expr:width='data:width'>
+      <img expr:alt='data:title' expr:height='data:height' expr:id='data:widget.instanceId + &quot;_img&quot;' expr:src='data:sourceUrl + &quot;-rw&quot;' expr:width='data:width' loading='lazy'>
         <b:attr cond='data:sourceSet' expr:value='data:sourceSet + &quot;-rw&quot;' name='srcset'/>
       </img>
     </b:tag>
